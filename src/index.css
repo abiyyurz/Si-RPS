@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-slate-100 text-slate-800;
+}
+
+/* ---- Halaman preview dokumen (mirip RPKPS, font Times New Roman) ---- */
+.doc {
+  font-family: "Times New Roman", Times, serif;
+  color: #000;
+  background: #fff;
+  font-size: 11pt;
+  line-height: 1.35;
+}
+.doc h1, .doc h2, .doc h3 { font-family: inherit; }
+.doc table { border-collapse: collapse; width: 100%; }
+.doc th, .doc td { border: 1px solid #000; padding: 3px 6px; vertical-align: top; }
+.doc .no-border, .doc .no-border th, .doc .no-border td { border: none; }
+
+/* ---- Cetak: hanya area dokumen yang tampil ---- */
+@media print {
+  @page { size: A4; margin: 2cm 1.5cm; }
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  .print-area { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  .page-break { break-before: page; }
+}
