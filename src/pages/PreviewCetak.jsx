@@ -49,7 +49,7 @@ export default function PreviewCetak({ rpsId, go }) {
         <Btn variant="ghost" className="ml-auto" onClick={() => go('dashboard')}>← Kembali</Btn>
       </div>
       <p className="no-print mb-4 text-xs text-slate-500">
-        Preview di bawah adalah dokumen Word yang sesungguhnya (logo & format persis template). Tombol Cetak mengunduh file .docx-nya.
+        Preview di bawah hanya <b>perkiraan tampilan</b> (dirender oleh browser). Logo dan sebagian format bisa tidak muncul dan huruf bisa terlihat sedikit berbeda karena keterbatasan browser. <b>File Word yang diunduh adalah versi resmi</b> — logo, huruf, dan format tampil persis di Microsoft Word. Klik “Cetak / Unduh Word” untuk hasil sebenarnya.
       </p>
 
       {status === 'memuat' && <p className="text-sm text-slate-500">Memuat preview dokumen…</p>}

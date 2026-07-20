@@ -102,8 +102,8 @@ export default function Login() {
             <img src={gedung} alt="Politeknik Negeri Bengkalis" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8 space-y-1">
-              <h1 className="text-4xl font-black text-white leading-tight tracking-tight">MERPS</h1>
-              <p className="text-slate-100 text-sm font-semibold">Penyusun RPKPS Jurusan Teknik Mesin</p>
+              <h1 className="text-4xl font-black text-white leading-tight tracking-tight">Si-RPS</h1>
+              <p className="text-slate-100 text-sm font-semibold">Sistem Informasi Rencana Pembelajaran Semester</p>
               <p className="text-slate-300 text-xs">Politeknik Negeri Bengkalis</p>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function Login() {
 
             <div className="space-y-1">
               <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-                {mode === 'register' ? 'Registrasi Dosen Baru' : mode === 'reset' ? 'Reset Password' : 'Masuk ke Aplikasi MERPS'}
+                {mode === 'register' ? 'Registrasi Dosen Baru' : mode === 'reset' ? 'Reset Password' : 'Masuk ke Aplikasi Si-RPS'}
               </h2>
               <p className="text-xs text-slate-500">
                 {mode === 'register'
