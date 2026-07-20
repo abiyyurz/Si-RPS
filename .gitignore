@@ -2,3 +2,21 @@ node_modules/
 dist/
 .env
 .env.*
+
+# Internal / project notes
+CLAUDE.md
+PRD.md
+PANDUAN_TAG_TEMPLATE.md
+
+# Local template / reference artifacts
+TEMPLATE_RPS.docx
+Template RPS OBE.docx
+Template RPS OBE - Polbeng TM.docx
+template-merps-tagged.docx
+
+# Development helper scripts / debug artifacts
+render-test.mjs
+rt.mjs
+rt2.mjs
+scripts/
+
