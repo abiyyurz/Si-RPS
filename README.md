@@ -1,84 +1,71 @@
-# MERPS
+# Si-RPS
 
-**Aplikasi penyusun Rencana Pembelajaran Semester (RPS)** untuk Jurusan Teknik Mesin, Politeknik Negeri Bengkalis.
+Sistem Informasi Rencana Pembelajaran Semester (RPS) berbasis web untuk mendukung proses penyusunan, pengelolaan, dan ekspor RPKPS secara lebih cepat, rapi, dan terstruktur.
 
-Setiap dosen punya akun sendiri dan hanya dapat melihat serta menyusun RPS untuk mata kuliahnya sendiri — data antar-dosen terpisah (terisolasi). RPS yang sudah lengkap dapat diekspor ke Word (`.docx`) sesuai template resmi kampus.
+Project ini dikembangkan untuk kebutuhan akademik di lingkungan Politeknik Negeri Bengkalis, dengan fokus pada pengalaman penggunaan yang sederhana bagi dosen dan sistem penyimpanan data yang aman per akun.
 
----
+## Fitur Utama
 
-## ✨ Fitur
+- Autentikasi dosen dengan akun terpisah per pengguna
+- Wizard penyusunan RPS yang terstruktur dan mudah diikuti
+- Penyimpanan data per akun dengan autosave
+- Preview dokumen sebelum ekspor
+- Ekspor RPS ke format Word (.docx) sesuai template resmi
+- Dukungan ekspor semua RPS sekaligus dalam format ZIP
+- Data master untuk prodi, dosen, katalog, dan pustaka
+- Profil pengguna untuk pengelolaan akun dasar
 
-- 🔐 **Login per-dosen** (daftar, masuk, lupa password) — tiap akun terisolasi, dosen tidak bisa melihat RPS milik dosen lain.
-- 📝 **Wizard penyusun RPS 6 langkah**: Identitas & Pengesahan · Deskripsi & Tujuan · Jam & Buku Bacaan · Kontrak Penilaian · RKPBM (16 minggu) · Ringkasan & Ekspor.
-- 💾 **Autosave** ke server (Supabase) + cache lokal, dengan penanda "Terakhir diubah".
-- 📤 **Ekspor ke Word** (`.docx`) sesuai template resmi Polbeng — per RPS atau **semua sekaligus (ZIP)**.
-- 👁️ **Preview cetak** dokumen langsung di web.
-- 🗂️ **Data master**: Katalog Mata Kuliah, Dosen, Prodi & Pustaka.
-- 👤 **Profil**: ubah nama & ganti password.
+## Stack Teknologi
 
-## 🛠️ Teknologi
+- React 19
+- Vite
+- Tailwind CSS v4
+- Supabase
+- Docxtemplater + PizZip + FileSaver
+- docx-preview
 
-- **React 19** + **Vite** + **Tailwind CSS v4**
-- **Supabase** (Postgres) untuk akun & penyimpanan data
-- Ekspor Word: `docxtemplater` + `pizzip` + `file-saver`; preview: `docx-preview`
+## Cara Menjalankan
 
-## 🚀 Menjalankan secara lokal
+1. Clone repository
+2. Install dependency:
+   ```bash
+   npm install
+   ```
+3. Siapkan file `.env` di root project:
+   ```env
+   VITE_SUPABASE_URL=https://<project-anda>.supabase.co
+   VITE_SUPABASE_ANON_KEY=<anon-key-anda>
+   ```
+4. Jalankan SQL di [`supabase-rps.sql`](supabase-rps.sql) satu kali pada project Supabase Anda
+5. Jalankan aplikasi:
+   ```bash
+   npm run dev
+   ```
 
-**1. Clone & install**
-```bash
-git clone https://github.com/Mozardrz/MERPS.git
-cd MERPS
-npm install
-```
+## Perintah Penting
 
-**2. Siapkan Supabase**
-- Buat project baru di [supabase.com](https://supabase.com).
-- Buka **SQL Editor** → jalankan seluruh isi [`supabase-rps.sql`](supabase-rps.sql) (membuat tabel `users` + `rps_stores`).
+- `npm run dev` — jalankan aplikasi secara lokal
+- `npm run build` — build untuk produksi
+- `npm run preview` — pratinjau hasil build
 
-**3. Konfigurasi `.env`** (di root project)
-```env
-VITE_SUPABASE_URL=https://<project-anda>.supabase.co
-VITE_SUPABASE_ANON_KEY=<anon-key-anda>
-```
-> Ambil URL + anon key di Supabase → **Settings → API**. File `.env` tidak ikut ter-commit (sudah di `.gitignore`).
+## Deploy
 
-**4. Jalankan**
-```bash
-npm run dev
-```
-Buka alamat yang muncul (mis. `http://localhost:5173`), daftar akun, lalu mulai menyusun RPS.
+Project ini dapat dideploy ke Netlify dengan konfigurasi build default:
 
-## 📦 Perintah
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Tambahkan environment variables:
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_ANON_KEY`
 
-| Perintah | Fungsi |
-|---|---|
-| `npm run dev` | Jalankan server pengembangan (Vite) |
-| `npm run build` | Build produksi ke `dist/` |
-| `npm run preview` | Pratinjau hasil build |
+## Struktur Project
 
-## 🌐 Deploy (Netlify)
+- `src/pages` — halaman utama aplikasi
+- `src/context` — state dan konteks autentikasi serta RPS
+- `src/utils` — logika penyimpanan, validasi, ekspor dokumen, dan auth
+- `src/components` — komponen reusable UI dan layout
+- `supabase-rps.sql` — skema database yang perlu dijalankan sekali
 
-1. Hubungkan repo ini ke Netlify (build `npm run build`, publish `dist`).
-2. Tambahkan **Environment variables**: `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`.
-3. `netlify.toml` sudah disertakan (build + SPA redirect).
+## Catatan
 
-## 📁 Struktur singkat
-
-```
-src/
-  context/    AuthContext, RpsContext
-  pages/      Login, Dashboard, Profil, Master*, PenyusunRPS, wizard/, PreviewCetak
-  utils/      storage (Supabase), auth, password, docxExport, validators, formatters
-  components/ layout & UI bersama
-supabase-rps.sql   skema tabel (jalankan sekali di Supabase)
-```
-
-## 📝 Catatan arsitektur
-
-- **Semua akses data RPS lewat `src/utils/storage.js`** — data disimpan per-akun di tabel `rps_stores` (satu baris JSONB per dosen, kunci `owner_id = users.id`).
-- Akun & login lewat tabel `users` (password di-hash SHA-256 + salt).
-- Template ekspor: `src/assets/template-merps.docx` (template resmi Polbeng bertag).
-
----
-
-Jurusan Teknik Mesin — Politeknik Negeri Bengkalis
+Si-RPS dirancang untuk kebutuhan penyusunan RPKPS yang lebih rapi, seragam, dan siap untuk diekspor sesuai format resmi kampus.
