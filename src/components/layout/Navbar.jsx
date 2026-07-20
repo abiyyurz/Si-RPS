@@ -1,6 +1,4 @@
 import logo from '../../assets/logo_polbeng.png'
-import { useAuth } from '../../context/AuthContext.jsx'
-import * as storage from '../../utils/storage.js'
 
 const MENU = [
   ['dashboard', 'Dashboard'],
@@ -10,16 +8,6 @@ const MENU = [
 ]
 
 export default function Navbar({ page, go }) {
-  const { currentUser, logout } = useAuth()
-
-  const keluar = async () => {
-    if (storage.hasPendingSave()) {
-      if (!window.confirm('Masih ada perubahan yang belum tersinkron ke server. Tetap keluar?')) return
-      await storage.flush()
-    }
-    logout()
-  }
-
   return (
     <header className="bg-blue-950 text-white shadow">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-2">
@@ -42,19 +30,6 @@ export default function Navbar({ page, go }) {
               {label}
             </button>
           ))}
-          <button
-            onClick={() => go('profil')}
-            title="Profil akun"
-            className={`ml-2 rounded px-3 py-1.5 text-sm ${page === 'profil' ? 'bg-amber-400 font-semibold text-blue-950' : 'text-blue-100 hover:bg-blue-900'}`}
-          >
-            {currentUser?.name || currentUser?.username}
-          </button>
-          <button
-            onClick={keluar}
-            className="ml-1 rounded bg-blue-900 px-3 py-1.5 text-sm text-blue-100 hover:bg-rose-600 hover:text-white"
-          >
-            Keluar
-          </button>
         </nav>
       </div>
     </header>

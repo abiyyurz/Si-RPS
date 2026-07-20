@@ -7,33 +7,37 @@ import { seedData } from '../data/seedData.js'
 import { toRomawi } from './formatters.js'
 import { supabase } from './supabase.js'
 
-let state = null // data akun aktif di memori
-let ownerId = null
-const cacheKey = (id) => `merps-data-${id}`
+// MODE PERSONAL + SINKRON CLOUD (tanpa login): satu "kotak" data bersama di
+// Supabase (owner tetap `personal`), cache di localStorage agar cepat & jalan
+// offline. Buka di browser/perangkat mana pun → data yang sama muncul.
+// ponytail: RLS terbuka untuk anon → siapa pun yang tahu URL + anon key bisa
+// membaca/mengubah data ini. Cukup untuk pemakaian pribadi; ganti ke Supabase
+// Auth + RLS per-akun saat pindah ke multi-user.
+const OWNER = 'personal'
+const CACHE_KEY = 'merps-data-local'
+let state = null
 
 export function uid() {
   return crypto.randomUUID()
 }
 
-// Muat data akun (dipanggil sekali setelah login, sebelum halaman dirender).
-export async function hydrate(id) {
-  ownerId = id
+// Muat data ke memori (dipanggil sekali sebelum halaman dirender).
+export async function hydrate() {
   try {
-    const { data } = await supabase.from('rps_stores').select('data').eq('owner_id', id).single()
+    const { data } = await supabase.from('rps_stores').select('data').eq('owner_id', OWNER).single()
     if (data?.data) {
       state = data.data
-      localStorage.setItem(cacheKey(id), JSON.stringify(state))
+      localStorage.setItem(CACHE_KEY, JSON.stringify(state))
       return
     }
   } catch { /* offline / baris belum ada → pakai cache atau seed */ }
-  const raw = localStorage.getItem(cacheKey(id))
+  const raw = localStorage.getItem(CACHE_KEY)
   state = raw ? JSON.parse(raw) : seedData()
-  persist() // simpan seed awal ke server untuk akun baru
+  persist() // simpan seed awal ke server
 }
 
 export function reset() {
   state = null
-  ownerId = null
   pendingSave = false
   clearTimeout(saveTimer)
 }
@@ -42,15 +46,12 @@ function load() {
   return state
 }
 
-// ponytail: tulis debounce & fire-and-forget (satu editor per akun, tak ada
-// penanganan konflik). Tambah optimistic-lock kalau nanti 1 akun diedit di banyak
-// perangkat bersamaan.
 let saveTimer = null
-let pendingSave = false // true = sudah tersimpan lokal tapi belum tersinkron ke server
+let pendingSave = false // true = tersimpan lokal tapi belum tersinkron ke server
 
 function persist() {
-  if (!ownerId || !state) return
-  localStorage.setItem(cacheKey(ownerId), JSON.stringify(state)) // cadangan instan, tak hilang
+  if (!state) return
+  localStorage.setItem(CACHE_KEY, JSON.stringify(state)) // cadangan instan
   pendingSave = true
   clearTimeout(saveTimer)
   saveTimer = setTimeout(pushNow, 600)
@@ -58,14 +59,14 @@ function persist() {
 
 function pushNow() {
   clearTimeout(saveTimer)
-  if (!ownerId || !state) { pendingSave = false; return Promise.resolve() }
+  if (!state) { pendingSave = false; return Promise.resolve() }
   return supabase
     .from('rps_stores')
-    .upsert({ owner_id: ownerId, data: state, updated_at: new Date().toISOString() })
+    .upsert({ owner_id: OWNER, data: state, updated_at: new Date().toISOString() })
     .then(({ error }) => { if (!error) pendingSave = false }, () => {})
 }
 
-// Paksa sinkron ke server sekarang (dipakai sebelum keluar/tutup tab).
+// Paksa sinkron ke server sekarang (dipakai sebelum menutup tab).
 export function flush() {
   return pushNow()
 }
