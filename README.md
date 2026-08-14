@@ -1,6 +1,6 @@
 # Si-RPS
 
-Sistem Informasi Rencana Pembelajaran Semester (RPS) berbasis web untuk mendukung proses penyusunan, pengelolaan, dan ekspor RPKPS secara lebih cepat, rapi, dan terstruktur.
+Sistem Informasi Rencana Pembelajaran Semester (RPS) berbasis web untuk mendukung proses penyusunan, pengelolaan, dan ekspor RPS secara lebih cepat, rapi, dan terstruktur.
 
 Project ini dikembangkan untuk kebutuhan akademik di lingkungan Politeknik Negeri Bengkalis, dengan fokus pada pengalaman penggunaan yang sederhana bagi dosen dan sistem penyimpanan data yang aman per akun.
 
@@ -50,7 +50,7 @@ Project ini dikembangkan untuk kebutuhan akademik di lingkungan Politeknik Neger
 
 ## Deploy
 
-Project ini dapat dideploy ke Netlify dengan konfigurasi build default:
+Project ini dapat dideploy ke Vercel atau Netlify dengan konfigurasi build default:
 
 - Build command: `npm run build`
 - Publish directory: `dist`
@@ -68,4 +68,4 @@ Project ini dapat dideploy ke Netlify dengan konfigurasi build default:
 
 ## Catatan
 
-Si-RPS dirancang untuk kebutuhan penyusunan RPKPS yang lebih rapi, seragam, dan siap untuk diekspor sesuai format resmi kampus.
+Si-RPS dirancang untuk kebutuhan penyusunan RPS yang lebih rapi, seragam, dan siap untuk diekspor sesuai format resmi kampus.

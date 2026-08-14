@@ -15,7 +15,7 @@ export default function Navbar({ page, go }) {
           <img src={logo} alt="Logo Polbeng" className="h-9 w-9 rounded-full bg-white object-contain p-0.5" />
           <div className="text-left leading-tight">
             <div className="font-bold tracking-wide">Si-RPS</div>
-            <div className="text-[10px] text-blue-200">Penyusun RPKPS • Teknik Mesin Polbeng</div>
+            <div className="text-[10px] text-blue-200">Penyusun RPS • Teknik Mesin Polbeng</div>
           </div>
         </button>
         <nav className="ml-auto flex flex-wrap items-center gap-1">

@@ -1,4 +1,4 @@
-// Preview RPKPS = render file .docx aslinya di browser (logo, font, format persis).
+// Preview RPS = render file .docx aslinya di browser (logo, font, format persis).
 // Memakai docx-preview untuk menampilkan dokumen yang sama dengan yang diunduh.
 import { useEffect, useRef, useState } from 'react'
 import { renderAsync } from 'docx-preview'
@@ -35,7 +35,7 @@ export default function PreviewCetak({ rpsId, go }) {
     return () => { batal = true }
   }, [rpsId])
 
-  if (!rpkps) return <p className="text-slate-500">RPKPS tidak ditemukan.</p>
+  if (!rpkps) return <p className="text-slate-500">RPS tidak ditemukan.</p>
 
   const unduh = async () => {
     setSedang(true)

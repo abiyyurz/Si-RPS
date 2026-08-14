@@ -26,7 +26,7 @@ export default function Step6Ringkasan() {
   return (
     <Card title="Hasil Validasi" actions={<StatusBadge status={siap ? 'siap_ekspor' : 'draf'} />}>
       {siap ? (
-        <p className="text-sm font-medium text-green-700">✓ Semua validasi lolos. RPKPS siap diekspor ke Word.</p>
+        <p className="text-sm font-medium text-green-700">✓ Semua validasi lolos. RPS siap diekspor ke Word.</p>
       ) : (
         <ul className="list-disc space-y-1 pl-5 text-sm text-red-700">
           {errors.map((e, i) => <li key={i}>{e}</li>)}

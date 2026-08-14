@@ -116,18 +116,18 @@ export async function renderRpkpsDocx(rpkps) {
 
 export async function exportRpkps(rpkps) {
   const blob = await renderRpkpsDocx(rpkps)
-  saveAs(blob, `RPKPS ${rpkps.kode_mk} ${rpkps.mata_kuliah}.docx`)
+  saveAs(blob, `RPS ${rpkps.kode_mk} ${rpkps.mata_kuliah}.docx`)
 }
 
 const namaAman = (s) => (s || '').replace(/[\\/:*?"<>|]/g, '').trim()
 
-// Ekspor beberapa RPKPS sekaligus jadi satu file .zip.
+// Ekspor beberapa RPS sekaligus jadi satu file .zip.
 export async function exportSemuaZip(list) {
   const zip = new PizZip()
   const counts = {}
   for (const r of list) {
     const buf = await (await renderRpkpsDocx(r)).arrayBuffer()
-    const base = namaAman(`RPKPS ${r.kode_mk || ''} ${r.mata_kuliah || 'tanpa nama'}`).slice(0, 90)
+    const base = namaAman(`RPS ${r.kode_mk || ''} ${r.mata_kuliah || 'tanpa nama'}`).slice(0, 90)
     counts[base] = (counts[base] || 0) + 1
     const nama = counts[base] === 1 ? `${base}.docx` : `${base} (${counts[base]}).docx`
     zip.file(nama, buf)

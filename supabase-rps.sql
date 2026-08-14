@@ -1,7 +1,7 @@
 -- ============================================================
--- SETUP SUPABASE UNTUK APLIKASI RPS (MERPS) — MODE PERSONAL (tanpa login)
+-- SETUP SUPABASE UNTUK APLIKASI SI-RPS — MODE PERSONAL (tanpa login)
 -- Jalankan SEKALI di Supabase SQL Editor pada project khusus RPS.
--- Menyimpan SATU "kotak" data RPKPS bersama (owner_id = 'personal') supaya
+-- Menyimpan SATU "kotak" data RPS bersama (owner_id = 'personal') supaya
 -- data tetap ada saat berpindah browser/perangkat.
 --
 -- CATATAN KEAMANAN: mode ini TANPA login, jadi aksesnya dibuka untuk anon —
@@ -10,7 +10,7 @@
 -- Supabase Auth + RLS per-akun (owner_id = auth.uid()).
 -- ============================================================
 
--- DATA RPKPS (satu baris jsonb). Aplikasi memakai owner_id tetap = 'personal'.
+-- DATA RPS (satu baris jsonb). Aplikasi memakai owner_id tetap = 'personal'.
 create table if not exists rps_stores (
   owner_id   text primary key,
   data       jsonb not null default '{}'::jsonb,

@@ -1,4 +1,4 @@
-// Daftar RPKPS: cari/filter, Buat/Edit/Duplikat/Hapus/Ekspor, status Draf/Siap Ekspor.
+// Daftar RPS: cari/filter, Buat/Edit/Duplikat/Hapus/Ekspor, status Draf/Siap Ekspor.
 import { useState } from 'react'
 import * as storage from '../utils/storage.js'
 import { validateRpkps } from '../utils/validators.js'
@@ -28,7 +28,7 @@ export default function Dashboard({ go }) {
     .sort((a, b) => (b.diperbarui || '').localeCompare(a.diperbarui || '')) // terbaru di atas
 
   const eksporSemua = async () => {
-    if (rpkpsList.length === 0) { alert('Belum ada RPKPS untuk diekspor.'); return }
+    if (rpkpsList.length === 0) { alert('Belum ada RPS untuk diekspor.'); return }
     setZipping(true)
     try {
       await exportSemuaZip(rpkpsList)
@@ -46,7 +46,7 @@ export default function Dashboard({ go }) {
   }
 
   const hapus = (r) => {
-    if (!window.confirm(`Hapus RPKPS "${r.mata_kuliah || '(tanpa nama)'}"? Tindakan ini tidak bisa dibatalkan.`)) return
+    if (!window.confirm(`Hapus RPS "${r.mata_kuliah || '(tanpa nama)'}"? Tindakan ini tidak bisa dibatalkan.`)) return
     storage.deleteRpkps(r.id)
     refresh()
   }
@@ -56,7 +56,7 @@ export default function Dashboard({ go }) {
   const ekspor = async (r) => {
     const errs = validateRpkps(r)
     if (errs.length) {
-      alert(`RPKPS belum siap diekspor:\n\n• ${errs.slice(0, 10).join('\n• ')}${errs.length > 10 ? `\n… dan ${errs.length - 10} lainnya` : ''}`)
+      alert(`RPS belum siap diekspor:\n\n• ${errs.slice(0, 10).join('\n• ')}${errs.length > 10 ? `\n… dan ${errs.length - 10} lainnya` : ''}`)
       go('wizard', { rpsId: r.id, step: 6 })
       return
     }
@@ -65,11 +65,11 @@ export default function Dashboard({ go }) {
 
   return (
     <Card
-      title="Daftar RPKPS"
+      title="Daftar RPS"
       actions={
         <div className="flex gap-2">
           <Btn variant="ghost" onClick={eksporSemua} disabled={zipping}>{zipping ? 'Menyiapkan…' : 'Ekspor Semua (ZIP)'}</Btn>
-          <Btn variant="accent" onClick={buatBaru}>+ Buat RPKPS Baru</Btn>
+          <Btn variant="accent" onClick={buatBaru}>+ Buat RPS Baru</Btn>
         </div>
       }
     >
@@ -138,7 +138,7 @@ export default function Dashboard({ go }) {
           </thead>
           <tbody>
             {tampil.length === 0 && (
-              <tr><td colSpan={7} className="px-2 py-6 text-center text-slate-400">Tidak ada RPKPS. Klik "Buat RPKPS Baru" untuk memulai.</td></tr>
+              <tr><td colSpan={7} className="px-2 py-6 text-center text-slate-400">Tidak ada RPS. Klik "Buat RPS Baru" untuk memulai.</td></tr>
             )}
             {tampil.map((r) => (
               <tr key={r.id} className="border-b border-slate-100 hover:bg-slate-50">

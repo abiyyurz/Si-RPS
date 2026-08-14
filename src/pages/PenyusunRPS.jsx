@@ -69,7 +69,7 @@ function WizardBody({ stepAwal, go }) {
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h1 className="text-lg font-bold text-blue-950">
-            Penyusun RPKPS{rps.mata_kuliah ? `: ${rps.mata_kuliah}` : ''}
+            Penyusun RPS{rps.mata_kuliah ? `: ${rps.mata_kuliah}` : ''}
           </h1>
           <p className="text-xs text-slate-500">Perubahan tersimpan otomatis.</p>
         </div>
