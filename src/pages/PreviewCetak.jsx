@@ -42,19 +42,30 @@ export default function PreviewCetak({ rpsId, go }) {
     try { await exportRpkps(rpkps) } catch (e) { console.error(e); alert('Gagal membuat file Word.') } finally { setSedang(false) }
   }
 
+  const cetakBrowser = () => {
+    window.print()
+  }
+
   return (
     <div>
-      <div className="no-print mb-4 flex items-center gap-2">
-        <Btn variant="accent" onClick={unduh} disabled={sedang}>{sedang ? 'Menyiapkan…' : '🖨 Cetak / Unduh Word (.docx)'}</Btn>
-        <Btn variant="ghost" className="ml-auto" onClick={() => go('dashboard')}>← Kembali</Btn>
+      <div className="no-print mb-4 flex flex-wrap items-center gap-2">
+        <Btn variant="accent" onClick={unduh} disabled={sedang}>
+          {sedang ? 'Menyiapkan…' : '⬇ Unduh File Word (.docx)'}
+        </Btn>
+        <Btn variant="ghost" onClick={cetakBrowser} disabled={status !== 'siap'}>
+          🖨 Cetak Dokumen
+        </Btn>
+        <Btn variant="ghost" className="ml-auto" onClick={() => go('dashboard')}>
+          ← Kembali
+        </Btn>
       </div>
       <p className="no-print mb-4 text-xs text-slate-500">
-        Preview di bawah hanya <b>perkiraan tampilan</b> (dirender oleh browser). Logo dan sebagian format bisa tidak muncul dan huruf bisa terlihat sedikit berbeda karena keterbatasan browser. <b>File Word yang diunduh adalah versi resmi</b> — logo, huruf, dan format tampil persis di Microsoft Word. Klik “Cetak / Unduh Word” untuk hasil sebenarnya.
+        Preview di bawah adalah tampilan render dokumen RPS. Untuk hasil cetak fisik/PDF resmi terbaik dengan format Microsoft Word asli, Anda bisa mengklik <b>“Unduh File Word (.docx)”</b> atau langsung <b>“Cetak Dokumen”</b>.
       </p>
 
-      {status === 'memuat' && <p className="text-sm text-slate-500">Memuat preview dokumen…</p>}
-      {status === 'error' && <p className="text-sm text-red-600">Gagal menampilkan preview. Coba muat ulang halaman.</p>}
-      <div className="overflow-x-auto rounded border border-slate-200 bg-slate-200 p-4">
+      {status === 'memuat' && <p className="no-print text-sm text-slate-500">Memuat preview dokumen…</p>}
+      {status === 'error' && <p className="no-print text-sm text-red-600">Gagal menampilkan preview. Coba muat ulang halaman.</p>}
+      <div className="preview-container overflow-x-auto rounded border border-slate-200 bg-slate-200 p-4 print:border-none print:bg-white print:p-0">
         <div ref={ref} className="mx-auto" />
       </div>
     </div>

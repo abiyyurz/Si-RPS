@@ -1,8 +1,9 @@
-// Wizard 6 langkah penyusun RPKPS. State di RpsContext (autosave otomatis).
 import { useState } from 'react'
 import { RpsProvider, useRps } from '../context/RpsContext.jsx'
 import { stepDone } from '../utils/validators.js'
+import * as storage from '../utils/storage.js'
 import { Btn } from '../components/common/ui.jsx'
+import AiGeneratorModal from '../components/common/AiGeneratorModal.jsx'
 import Step1Identitas from './wizard/Step1Identitas.jsx'
 import Step2Tujuan from './wizard/Step2Tujuan.jsx'
 import Step3JamBuku from './wizard/Step3JamBuku.jsx'
@@ -53,7 +54,66 @@ function StepNav({ step, setStep }) {
 
 function WizardBody({ stepAwal, go }) {
   const [step, setStep] = useState(stepAwal)
-  const { rps } = useRps()
+  const [modalAiOpen, setModalAiOpen] = useState(false)
+  const { rps, setRps } = useRps()
+
+  const handleApplyAi = (aiData, meta) => {
+    const pustakas = storage.list('pustakas') || []
+    const pustakaUtamaIds = [...(rps.pustaka_utama_ids || [])]
+
+    if (Array.isArray(aiData.pustaka)) {
+      aiData.pustaka.forEach((p) => {
+        const existing = pustakas.find((ex) => ex.judul && p.judul && ex.judul.toLowerCase() === p.judul.toLowerCase())
+        if (existing) {
+          if (!pustakaUtamaIds.includes(existing.id)) pustakaUtamaIds.push(existing.id)
+        } else if (p.judul) {
+          const baru = storage.add('pustakas', {
+            jenis: p.jenis || 'utama',
+            penulis: p.penulis || 'Pustaka Utama',
+            tahun: String(p.tahun || new Date().getFullYear()),
+            judul: p.judul,
+            penerbit: p.penerbit || 'Politeknik Negeri Bengkalis',
+            nomor_urut: pustakas.length + 1,
+          })
+          pustakaUtamaIds.push(baru.id)
+        }
+      })
+    }
+
+    setRps((prev) => ({
+      ...prev,
+      mata_kuliah: meta.mata_kuliah || aiData.mata_kuliah || prev.mata_kuliah,
+      kode_mk: meta.kode_mk || aiData.kode_mk || prev.kode_mk || 'KBPP 2152',
+      sks: meta.sks || aiData.sks || prev.sks || 2,
+      jam_per_minggu: (meta.sks || aiData.sks || prev.sks || 2) * 2,
+      semester: meta.semester || aiData.semester || prev.semester || 'Genap',
+      program_studi_id: meta.program_studi_id || prev.program_studi_id,
+      prasyarat: aiData.prasyarat || prev.prasyarat || '-',
+      perkiraan_peserta: aiData.perkiraan_peserta || prev.perkiraan_peserta || '25 - 30 Orang Mahasiswa',
+      deskripsi_singkat: aiData.deskripsi_singkat || prev.deskripsi_singkat,
+      tujuan_umum: aiData.tujuan_umum || prev.tujuan_umum,
+      tujuan_khusus: Array.isArray(aiData.tujuan_khusus) && aiData.tujuan_khusus.length ? aiData.tujuan_khusus : prev.tujuan_khusus,
+      jam: {
+        perkuliahan_jam: aiData.jam?.perkuliahan_jam ?? prev.jam.perkuliahan_jam,
+        perkuliahan_minggu: aiData.jam?.perkuliahan_minggu ?? prev.jam.perkuliahan_minggu,
+        latihan_jam: aiData.jam?.latihan_jam ?? prev.jam.latihan_jam,
+        latihan_minggu: aiData.jam?.latihan_minggu ?? prev.jam.latihan_minggu,
+        praktikum_jam: aiData.jam?.praktikum_jam ?? prev.jam.praktikum_jam,
+        praktikum_minggu: aiData.jam?.praktikum_minggu ?? prev.jam.praktikum_minggu,
+        ujian_jam: aiData.jam?.ujian_jam ?? prev.jam.ujian_jam,
+      },
+      pustaka_utama_ids: pustakaUtamaIds.length ? pustakaUtamaIds : prev.pustaka_utama_ids,
+      penilaian: {
+        uts: aiData.penilaian?.uts ?? prev.penilaian.uts,
+        uas: aiData.penilaian?.uas ?? prev.penilaian.uas,
+        nkp: aiData.penilaian?.nkp ?? prev.penilaian.nkp,
+        nkpr: aiData.penilaian?.nkpr ?? prev.penilaian.nkpr,
+        hasil_belajar_harian: aiData.penilaian?.hasil_belajar_harian || prev.penilaian.hasil_belajar_harian,
+        etika: aiData.penilaian?.etika || prev.penilaian.etika,
+      },
+      rkpbm: Array.isArray(aiData.rkpbm) && aiData.rkpbm.length === 16 ? aiData.rkpbm : prev.rkpbm,
+    }))
+  }
 
   const STEPS = {
     1: <Step1Identitas />,
@@ -66,14 +126,29 @@ function WizardBody({ stepAwal, go }) {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <AiGeneratorModal
+        isOpen={modalAiOpen}
+        onClose={() => setModalAiOpen(false)}
+        onApply={handleApplyAi}
+        initialData={{
+          mata_kuliah: rps.mata_kuliah,
+          kode_mk: rps.kode_mk,
+          sks: rps.sks,
+          program_studi_id: rps.program_studi_id,
+          semester: rps.semester,
+        }}
+      />
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-lg font-bold text-blue-950">
             Penyusun RPS{rps.mata_kuliah ? `: ${rps.mata_kuliah}` : ''}
           </h1>
           <p className="text-xs text-slate-500">Perubahan tersimpan otomatis.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <Btn variant="accent" className="flex items-center gap-1 shadow-xs" onClick={() => setModalAiOpen(true)}>
+            ✨ Isi Otomatis dengan AI
+          </Btn>
           <Btn variant="ghost" onClick={() => go('preview', { rpsId: rps.id })}>Preview/Cetak</Btn>
           <Btn variant="ghost" onClick={() => go('dashboard')}>← Kembali ke Dashboard</Btn>
         </div>

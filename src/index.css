@@ -4,7 +4,7 @@ body {
   @apply bg-slate-100 text-slate-800;
 }
 
-/* ---- Halaman preview dokumen (mirip RPKPS, font Times New Roman) ---- */
+/* ---- Halaman preview dokumen (mirip RPS, font Times New Roman) ---- */
 .doc {
   font-family: "Times New Roman", Times, serif;
   color: #000;
@@ -19,9 +19,43 @@ body {
 
 /* ---- Cetak: hanya area dokumen yang tampil ---- */
 @media print {
-  @page { size: A4; margin: 2cm 1.5cm; }
-  body { background: #fff; }
-  .no-print { display: none !important; }
-  .print-area { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
-  .page-break { break-before: page; }
+  @page {
+    size: A4;
+    margin: 1.5cm 1.5cm;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  header, nav, footer, .no-print {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .print-area, .preview-container {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  /* docx-preview layout overrides for printing */
+  .docx-wrapper {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  .docx-wrapper > section.docx {
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: transparent !important;
+  }
+  .page-break {
+    break-before: page;
+  }
 }

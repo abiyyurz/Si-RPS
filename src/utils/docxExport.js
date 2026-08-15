@@ -1,6 +1,5 @@
-// Ekspor RPKPS ke Word. Logika terpusat di sini.
-// Template: src/assets/template-merps.docx (dibuat scripts/makeTemplate.mjs).
-// Ganti template resmi kampus kelak = ganti file docx dengan tag yang sama.
+// Ekspor RPS (Si-RPS) ke Word. Logika terpusat di sini.
+// Template: src/assets/template-merps.docx
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import { saveAs } from 'file-saver'
@@ -104,7 +103,8 @@ function buildData(rpkps) {
 
 // Render template + data → Blob .docx (dipakai ekspor & preview di web).
 export async function renderRpkpsDocx(rpkps) {
-  const res = await fetch(templateUrl)
+  const freshUrl = templateUrl.includes('?') ? `${templateUrl}&t=${Date.now()}` : `${templateUrl}?t=${Date.now()}`
+  const res = await fetch(freshUrl, { cache: 'no-store' })
   const zip = new PizZip(await res.arrayBuffer())
   const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true })
   doc.render(buildData(rpkps))

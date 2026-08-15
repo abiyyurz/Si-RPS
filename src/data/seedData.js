@@ -1,4 +1,4 @@
-// Data contoh awal RPKPS — dimuat sekali saat localStorage masih kosong.
+// Data contoh awal RPS (Si-RPS) — dimuat sekali saat localStorage masih kosong.
 import { toRomawi } from '../utils/formatters.js'
 
 const HOLMAN = 'Holman, J.P. 1997. Perpindahan Kalor (Heat Transfer). Erlangga, Jakarta.'
@@ -104,8 +104,49 @@ export function seedData() {
   ]
 
   const pustakas = [
+    // Perpindahan Kalor & Termodinamika
     { id: 'pus-1', jenis: 'utama', penulis: 'Holman, J.P., Jasjfi, E.', tahun: '1997', judul: 'Perpindahan Kalor (Heat Transfer)', penerbit: 'Erlangga, Jakarta', nomor_urut: 1 },
     { id: 'pus-2', jenis: 'utama', penulis: 'Mahmudi, Ali', tahun: '2005', judul: 'Modul Bahan Ajar Perpindahan Kalor dan Penukar Kalor', penerbit: 'Politeknik Negeri Bandung', nomor_urut: 2 },
+    { id: 'pus-3', jenis: 'utama', penulis: 'Cengel, Yunus A., & Boles, Michael A.', tahun: '2019', judul: 'Thermodynamics: An Engineering Approach (9th Edition)', penerbit: 'McGraw-Hill Education, New York', nomor_urut: 3 },
+    { id: 'pus-4', jenis: 'pendukung', penulis: 'Incropera, F.P., & DeWitt, D.P.', tahun: '2011', judul: 'Fundamentals of Heat and Mass Transfer', penerbit: 'John Wiley & Sons, New York', nomor_urut: 4 },
+
+    // Gambar Teknik Mesin & CAD
+    { id: 'pus-5', jenis: 'utama', penulis: 'Takeshi Sato, G., & Sugiarto, N.', tahun: '2008', judul: 'Menggambar Mesin Menurut Standar ISO', penerbit: 'PT Pradnya Paramita, Jakarta', nomor_urut: 5 },
+    { id: 'pus-6', jenis: 'utama', penulis: 'Luzadder, Warren J., & Hendarsin', tahun: '1999', judul: 'Menggambar Teknik untuk Desain dan Manufaktur', penerbit: 'Erlangga, Jakarta', nomor_urut: 6 },
+
+    // Kerja Bangku, Fabrikasi & Pengelasan
+    { id: 'pus-7', jenis: 'utama', penulis: 'Daryanto', tahun: '2010', judul: 'Keahlian Kerja Bangku dan Pelat untuk Pendidikan Kejuruan', penerbit: 'Alfabeta, Bandung', nomor_urut: 7 },
+    { id: 'pus-8', jenis: 'utama', penulis: 'Wiryosumarto, Harsono, & Okumura, Toshie', tahun: '2000', judul: 'Teknologi Pengelasan Logam', penerbit: 'PT Pradnya Paramita, Jakarta', nomor_urut: 8 },
+    { id: 'pus-9', jenis: 'pendukung', penulis: 'Alip, Mochamad', tahun: '2018', judul: 'Teknologi Pengelasan Logam: Teori dan Praktik Pengelasan SMAW, GMAW, GTAW', penerbit: 'Deepublish, Yogyakarta', nomor_urut: 9 },
+
+    // Elemen Mesin & Perancangan
+    { id: 'pus-10', jenis: 'utama', penulis: 'Sularso, & Suga, Kiyokatsu', tahun: '2004', judul: 'Dasar Perencanaan dan Pemilihan Elemen Mesin', penerbit: 'PT Pradnya Paramita, Jakarta', nomor_urut: 10 },
+    { id: 'pus-11', jenis: 'utama', penulis: 'Shigley, Joseph E., & Mischke, Charles R.', tahun: '2015', judul: 'Mechanical Engineering Design (Perancangan Teknik Mesin)', penerbit: 'McGraw-Hill / Erlangga, Jakarta', nomor_urut: 11 },
+
+    // Proses Manufaktur, Pemesinan & CNC
+    { id: 'pus-12', jenis: 'utama', penulis: 'Kalpakjian, Serope, & Schmid, Steven R.', tahun: '2014', judul: 'Manufacturing Processes for Engineering Materials (6th Edition)', penerbit: 'Pearson Education, Singapore', nomor_urut: 12 },
+    { id: 'pus-13', jenis: 'utama', penulis: 'Groover, Mikell P.', tahun: '2016', judul: 'Fundamentals of Modern Manufacturing: Materials, Processes, and Systems', penerbit: 'John Wiley & Sons, New York', nomor_urut: 13 },
+    { id: 'pus-14', jenis: 'pendukung', penulis: 'Rochim, Taufiq', tahun: '2007', judul: 'Teori & Teknologi Proses Pemesinan', penerbit: 'Laboratorium Teknik Produksi FTI-ITB Bandung', nomor_urut: 14 },
+
+    // Mekanika Fluida, Pompa & Kompresor
+    { id: 'pus-15', jenis: 'utama', penulis: 'White, Frank M., & Harinaldi', tahun: '2011', judul: 'Mekanika Fluida (Edisi Ke-5 Jilid 1 & 2)', penerbit: 'Penerbit Erlangga, Jakarta', nomor_urut: 15 },
+    { id: 'pus-16', jenis: 'utama', penulis: 'Sularso, & Haruo Tahara', tahun: '2006', judul: 'Pompa dan Kompresor: Pemilihan, Pemakaian dan Pemeliharaan', penerbit: 'PT Pradnya Paramita, Jakarta', nomor_urut: 16 },
+
+    // Perawatan Mesin & Manajemen Pemeliharaan (TMPP)
+    { id: 'pus-17', jenis: 'utama', penulis: 'Mobley, R. Keith, & Higgins, Lindley R.', tahun: '2008', judul: 'Maintenance Engineering Handbook (7th Edition)', penerbit: 'McGraw-Hill Professional, New York', nomor_urut: 17 },
+    { id: 'pus-18', jenis: 'utama', penulis: 'Daryanto', tahun: '2012', judul: 'Manajemen Perawatan Mesin Industri', penerbit: 'Satu Nusa, Bandung', nomor_urut: 18 },
+
+    // Mekanika Teknik & Statika Struktur
+    { id: 'pus-19', jenis: 'utama', penulis: 'Beer, Ferdinand P., Johnston, E. Russell, & DeWolf, John T.', tahun: '2012', judul: 'Mekanika untuk Insinyur: Statika & Dinamika', penerbit: 'Penerbit Erlangga, Jakarta', nomor_urut: 19 },
+    { id: 'pus-20', jenis: 'pendukung', penulis: 'Popov, Egor P., & Zainul, Astamar', tahun: '1996', judul: 'Mekanika Teknik (Mechanics of Materials)', penerbit: 'Erlangga, Jakarta', nomor_urut: 20 },
+
+    // Pneumatik, Hidrolik & Otomasi
+    { id: 'pus-21', jenis: 'utama', penulis: 'Parr, Andrew', tahun: '2011', judul: 'Hydraulics and Pneumatics: A Technician\'s and Engineer\'s Guide', penerbit: 'Butterworth-Heinemann, Oxford', nomor_urut: 21 },
+    { id: 'pus-22', jenis: 'utama', penulis: 'Majumdar, S.R.', tahun: '2001', judul: 'Pneumatic Systems: Principles and Maintenance', penerbit: 'Tata McGraw-Hill Education, New Delhi', nomor_urut: 22 },
+
+    // Material Teknik & Metalurgi
+    { id: 'pus-23', jenis: 'utama', penulis: 'Callister, William D., & Rethwisch, David G.', tahun: '2018', judul: 'Materials Science and Engineering: An Introduction (10th Edition)', penerbit: 'John Wiley & Sons, New York', nomor_urut: 23 },
+    { id: 'pus-24', jenis: 'pendukung', penulis: 'Surdia, Tata, & Saito, Shinroku', tahun: '2005', judul: 'Pengetahuan Bahan Teknik', penerbit: 'PT Pradnya Paramita, Jakarta', nomor_urut: 24 },
   ]
 
   const rkpbm = Array.from({ length: 16 }, (_, i) => rkpbmBaris(i + 1))

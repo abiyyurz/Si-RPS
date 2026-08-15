@@ -1,4 +1,4 @@
-// Semua aturan validasi RPKPS. Dipakai wizard, dashboard, dan sebelum ekspor.
+// Semua aturan validasi RPS (Si-RPS). Dipakai wizard, dashboard, dan sebelum ekspor.
 
 const num = (v) => (Number.isFinite(+v) ? +v : 0)
 
@@ -18,7 +18,7 @@ export function formatRumusNas(rpkps) {
   return `NAS = ((UTS ${num(p.uts)}% + UAS ${num(p.uas)}% + NKP ${num(p.nkp)}%)) + (NKPr ${num(p.nkpr)}%)`
 }
 
-// Mengembalikan daftar pesan error (kosong = RPKPS valid & siap ekspor).
+// Mengembalikan daftar pesan error (kosong = RPS valid & siap ekspor).
 export function validateRpkps(rpkps) {
   const errors = []
 

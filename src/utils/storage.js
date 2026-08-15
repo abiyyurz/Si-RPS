@@ -1,6 +1,6 @@
-// SEMUA baca/tulis data RPKPS lewat file ini.
+// SEMUA baca/tulis data RPS (Si-RPS) lewat file ini.
 // Data disimpan PER-AKUN di Supabase (tabel `rps_stores`, satu baris jsonb per dosen)
-// sehingga tiap dosen hanya melihat RPKPS miliknya sendiri. Cache di localStorage
+// sehingga tiap dosen hanya melihat RPS miliknya sendiri. Cache di localStorage
 // agar cepat & tetap jalan offline. API tetap sinkron: data di-hydrate ke memori
 // saat login, semua fungsi baca/tulis memori, penyimpanan ke server otomatis (debounce).
 import { seedData } from '../data/seedData.js'
